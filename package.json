@@ -4,9 +4,18 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "tsc": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^18.15.11",
+    "typescript": "^5.0.2"
+  },
+  "dependencies": {
+    "acorn": "^8.8.2",
+    "ast-types": "^0.14.2"
+  }
 }

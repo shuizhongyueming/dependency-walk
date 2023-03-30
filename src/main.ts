@@ -40,6 +40,7 @@ export const walk: Walk = (options) => {
   const entryModule: EntryModule = resolveModule(entry, { isEntry: true }) as EntryModule;
 
   const traverse = (moduleInfo: Module) => {
+    console.log('traverse', moduleInfo.filePath);
     transformer(moduleInfo);
 
     if (onModule) {
@@ -56,7 +57,7 @@ export const walk: Walk = (options) => {
           });
           const depModule = resolveModule(absolutePath, { isEntry: false });
           moduleInfo.dependencies.push(depModule);
-          if (filter(depModule)) {
+          if (filter(depModule) && !parsedModule.has(depModule.filePath)) {
             traverse(depModule);
           }
         },

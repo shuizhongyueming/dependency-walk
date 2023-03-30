@@ -2,7 +2,7 @@
   "name": "dependency-walk",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/main.js",
   "scripts": {
     "tsc": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -22,5 +22,8 @@
   "dependencies": {
     "acorn": "^8.8.2",
     "ast-types": "^0.14.2"
-  }
+  },
+  "files": [
+    "dist"
+  ]
 }

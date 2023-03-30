@@ -4,9 +4,9 @@
   "description": "",
   "main": "dist/main.js",
   "type": "module",
+  "repository": "https://github.com/shuizhongyueming/dependency-walk.git",
   "scripts": {
-    "tsc": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "tsc": "tsc"
   },
   "keywords": [],
   "author": "",

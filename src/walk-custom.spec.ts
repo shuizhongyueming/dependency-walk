@@ -35,39 +35,54 @@ describe("custom", function() {
     }
   });
 
-  it("should skip module if filter return false", function(){
+  it("should skip parse module if filter return false", function(){
     const entryPath = path.resolve(__dirname, "../test/customRequire/b/index.js");
 
+    const parser = parserCjs(['customRequire', 'require']);
+    const skippedFileName = 'b2a.js';
+    let onModuleDetectedSkipped = false;
+    let afterModuleDetectedSkipped = false;
+
     walk({
-      parser: parserCjs(['customRequire', 'require']),
       entry: entryPath,
       filter(moduleInfo) {
-        return !moduleInfo.filePath.endsWith("b2a.js");
+        return !moduleInfo.filePath.endsWith(skippedFileName);
       },
-      onModule(module) {
-        assert.ok(!module.filePath.endsWith("b2a.js"), `should skip ${module.filePath}`);
+      parser(moduleInfo) {
+        assert.ok(!moduleInfo.filePath.endsWith(skippedFileName), `should skip parse ${moduleInfo.filePath}`);
+        return parser(moduleInfo)
+      },
+      onModule(moduleInfo) {
+        if (moduleInfo.filePath.endsWith(skippedFileName)) {
+          onModuleDetectedSkipped = true
+        }
+      },
+      afterModule(moduleInfo) {
+        if (moduleInfo.filePath.endsWith(skippedFileName)) {
+          afterModuleDetectedSkipped = true
+        }
       }
     });
+    assert.equal(onModuleDetectedSkipped, true, 'skipped module should also processed by onModule');
+    assert.equal(afterModuleDetectedSkipped, true, 'skipped module should also processed by afterModule');
   });
 
   it("should place skipped module in parent's dependencies", function(){
     const entryPath = path.resolve(__dirname, "../test/customRequire/c/c.js");
+    const skippedFileName = "cc.js";
 
     const entryModule = walk({
       parser: parserCjs(['customRequire', 'require']),
       entry: entryPath,
       filter(moduleInfo) {
-        return !moduleInfo.filePath.endsWith("cc.js");
-      },
-      onModule(module) {
-        assert.ok(!module.filePath.endsWith("cc.js"), `should skip ${module.filePath}`);
+        return !moduleInfo.filePath.endsWith(skippedFileName);
       }
     });
 
-    assert.ok(entryModule.dependencies.some(dep => dep.filePath.endsWith("cc.js")), 'cc.js is required by c.js');
+    assert.ok(entryModule.dependencies.some(dep => dep.filePath.endsWith(skippedFileName)), 'cc.js is required by c.js');
     assert.ok(entryModule.dependencies
-      .filter(dep => !dep.filePath.endsWith("cc.js"))
-      .every(dep => dep.dependencies.some(d => d.filePath.endsWith('cc.js'))), 'cc.js is required by cb.js and ca.js');
+      .filter(dep => !dep.filePath.endsWith(skippedFileName))
+      .every(dep => dep.dependencies.some(d => d.filePath.endsWith(skippedFileName))), 'cc.js is required by cb.js and ca.js');
   });
 
   it("should transform before parse", function() {

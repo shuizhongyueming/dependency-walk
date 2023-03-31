@@ -3,7 +3,6 @@
   "version": "1.0.1",
   "description": "",
   "main": "dist/main.js",
-  "type": "module",
   "repository": "https://github.com/shuizhongyueming/dependency-walk.git",
   "scripts": {
     "tsc": "tsc"

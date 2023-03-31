@@ -21,14 +21,14 @@ export const extractDependencyFromMainRequire = (node: namedTypes.CallExpression
 };
 
 // ${requireFunctionNames}('xxx')
-const isPlainRequire = (node: namedTypes.CallExpression, requireFunctionNames: string[]) => {
+export const isPlainRequire = (node: namedTypes.CallExpression, requireFunctionNames: string[]) => {
   return (
     namedTypes.Identifier.check(node.callee) && requireFunctionNames.includes(node.callee.name)
   );
 };
 
 // ${requireFunctionNames}.main.require('xxx')
-const isMainScopeRequire = (node: namedTypes.CallExpression, requireFunctionNames: string[]) => {
+export const isMainScopeRequire = (node: namedTypes.CallExpression, requireFunctionNames: string[]) => {
   const { callee } = node;
   return (
     namedTypes.MemberExpression.check(callee) &&

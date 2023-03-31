@@ -21,7 +21,7 @@ Next, define the options object with the following properties:
 - `entry`: the path to the entry module
 - `parser`: (optional) a custom parser function for the module code
 - `transformer`: (optional) a custom transformer function for the module info
-- `filter`: (optional) a custom filter function to exclude certain modules
+- `filter`: (optional) a custom filter function to exclude certain modules from parse
 - `onModule`: (optional) a callback function to be called for each module
 - `afterModule`: (optional) a callback function to be called after processing each module
 

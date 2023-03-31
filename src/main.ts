@@ -57,7 +57,15 @@ export const walk: Walk = (options) => {
           });
           const depModule = resolveModule(absolutePath, { isEntry: false });
           moduleInfo.dependencies.push(depModule);
-          if (filter(depModule) && !parsedModule.has(depModule.filePath)) {
+
+          const parsed = parsedModule.has(depModule.filePath);
+
+          // filter is just use to detect whether a module should be parsed
+          if (filter(depModule) === false) {
+            parsedModule.add(depModule.filePath);
+          }
+
+          if (!parsed) {
             traverse(depModule);
           }
         },
